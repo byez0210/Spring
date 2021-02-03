@@ -11,7 +11,8 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import kr.or.ddit.user.service.UserService;
 
-@ContextConfiguration("classpath:/kr/or/ddit/ioc/ioc.xml")
+@ContextConfiguration(locations = {"classpath:/kr/or/ddit/ioc/ioc.xml"
+									,"classpath:/kr/or/ddit/config/spring/datasource-context.xml"})
 @RunWith(SpringJUnit4ClassRunner.class)
 public class IocTest {
 
@@ -36,13 +37,7 @@ public class IocTest {
 	//userServiceCons 스프링 빈이 정상적으로 생성되었는지 테스트
 	@Test
 	public void UserServiceConsTest() {
-		/***Given***/
-		
-
-		/***When***/
-		
-		
-		/***Then***/
+	
 		assertNotNull(userServiceCons);
 	}
 	

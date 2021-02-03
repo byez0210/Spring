@@ -1,16 +1,22 @@
 package kr.or.ddit.user.service;
 
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import javax.annotation.Resource;
 
 import org.springframework.stereotype.Service;
 
+import kr.or.ddit.common.model.PageVo;
 import kr.or.ddit.user.model.UserVo;
 import kr.or.ddit.user.repository.UserDao;
 
-@Service
+@Service("userService")
 public class UserServiceImpl implements UserService{
 
-	@Resource(name="userDao") //repository³ª Å¬·¡½º¸í¿¡¼­ °¡Á®¿À±â 
+	
+	@Resource(name="userDao") //repositoryï¿½ï¿½ Å¬ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ 
 	private UserDao userDao;
 	
 	public UserServiceImpl() {
@@ -21,8 +27,8 @@ public class UserServiceImpl implements UserService{
 		this.userDao = userDao;
 	}
 	@Override
-	public UserVo getUser(String userid) {
-		return userDao.getUser(userid);
+	public UserVo selectUser(String userid) {
+		return userDao.selectUser(userid);
 	}
 
 	public UserDao getUserDao() {
@@ -32,5 +38,43 @@ public class UserServiceImpl implements UserService{
 	public void setUserDao(UserDao userDao) {
 		this.userDao = userDao;
 	}
-	
+
+	@Override
+	public List<UserVo> selectAllUser() {
+		List<UserVo> userList =null;
+		try {
+			userList = userDao.selectAllUser();
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
+		return userList;
+	}
+	@Override
+	public Map<String, Object> selectPagingUser(PageVo pageVo) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("pageVo", pageVo);
+		map.put("userList",userDao.selectPagingUser(pageVo));
+		map.put("pagination",(int)Math.ceil( (double)userDao.selectAllUserCnt() /pageVo.getPageSize()) );
+        
+		return map;
+	}
+
+	@Override
+	public int modifyUser(UserVo userVo) {
+		
+		return userDao.modifyUser(userVo);
+	}
+
+	@Override
+	public int registUser(UserVo userVo) {
+		
+		return userDao.registUser(userVo);
+	} 
+
+	@Override
+	public int deleteUser(String userid) {
+		
+		return userDao.deleteUser(userid);
+	}
+
 }

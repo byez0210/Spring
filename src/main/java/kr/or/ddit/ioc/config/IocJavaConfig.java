@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.beans.factory.config.ConfigurableBeanFactory;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.ImportResource;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.context.annotation.Scope;
 
@@ -20,6 +21,7 @@ import kr.or.ddit.user.service.UserServiceImpl;
 
 //스프링 프레임 워크에게 해당 자바 파일이 
 //스프링 설정파일임을 알려준다
+@ImportResource("classpath:/kr/or/ddit/config/spring/datasource-context.xml")
 @PropertySource(value = {"classpath:/kr/or/ddit/config/db/dbinfo.properties"})
 @Configuration
 public class IocJavaConfig {
@@ -32,10 +34,10 @@ public class IocJavaConfig {
 	private String username;
 	@Value("${jdbc.password}")
 	private String password;
-	//메소드 : 스프링 빈으로 반들 객체를 반환하는 메소드를 생성
-	//		 메소드에 @Bean 어노테이션을 젃용
-	// 		 @Bean 어노테이션에 별다른 옵션을 적용하지 않으면 생성된 스프링 빈이의 이름은
-	//		 메소드 이름으로 적용된다 (@Bean 어노체이션의 name 속성을 총해 스프링 빈 이름 설정 가능)
+//	메소드 : 스프링 빈으로 반들 객체를 반환하는 메소드를 생성
+//			 메소드에 @Bean 어노테이션을 젃용
+//	 		 @Bean 어노테이션에 별다른 옵션을 적용하지 않으면 생성된 스프링 빈이의 이름은
+//			 메소드 이름으로 적용된다 (@Bean 어노체이션의 name 속성을 총해 스프링 빈 이름 설정 가능)
 	
 	//	<bean id="userDao" class="kr.or.ddit.user.repository.UserDaoImpl"/>
 	

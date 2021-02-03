@@ -1,12 +1,19 @@
 package kr.or.ddit.user.repository;
 
+import java.util.List;
+
+import javax.annotation.Resource;
+
+import org.apache.ibatis.session.SqlSession;
+import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Repository;
 
+import kr.or.ddit.common.model.PageVo;
 import kr.or.ddit.user.model.UserVo;
 
 // <bean id="" class=""
-// @Repository¿¡¼­ º°´Ù¸¥ ¼³Á¤À» ÇÏÁö ¾ÊÀ¸¸é ½ºÇÁ¸µ ºó ÀÌ¸§À¸·Î class ÀÌ¸§¿¡¼­ Ã¹±ÛÀÚ¸¦ ¼Ò¹®ÀÚ·Î ÇÑ
-// ¹®ÀÚ¿­ÀÌ ½ºÇÁ¸µ ºóÀÇ ÀÌ¸§À¸·Î ¼³Á¤µÃ´Ù
+// @Repositoryå ì™ì˜™å ì™ì˜™ å ì™ì˜™å ìŒ•ëªŒì˜™ å ì™ì˜™å ì™ì˜™å ì™ì˜™ å ì™ì˜™å ì™ì˜™ å ì™ì˜™å ì™ì˜™å ì™ì˜™ å ì™ì˜™å ì™ì˜™å ì™ì˜™ å ì™ì˜™ å ì‹±ëªŒì˜™å ì™ì˜™å ì™ì˜™ class å ì‹±ëªŒì˜™å ì™ì˜™å ì™ì˜™ ì²«å ì™ì˜™å ìŒ˜ëªŒì˜™ å ìŒ€ë±„ì˜™å ìŒ˜ë¤„ì˜™ å ì™ì˜™
+// å ì™ì˜™å ìŒ˜ìš¸ì˜™å ì™ì˜™ å ì™ì˜™å ì™ì˜™å ì™ì˜™ å ì™ì˜™å ì™ì˜™ å ì‹±ëªŒì˜™å ì™ì˜™å ì™ì˜™ å ì™ì˜™å ì™ì˜™å ì‹œëŒì˜™
 // UserDaoImpl => userDaoImpl
 
 // UserDao / UserDaoImpl ==> @Resource(name="userDaoImpl")
@@ -14,14 +21,79 @@ import kr.or.ddit.user.model.UserVo;
 
 @Repository("userDao")
 public class UserDaoImpl implements UserDao{
+	@Resource(name="sqlSessionTemplate")
+	private SqlSessionTemplate template;
 
+		/* ì´ì „ ë²„ì „
+		@Override
+		public UserVo selectUser(String userid) {
+			SqlSession sqlSession =  MybatisUtil.getSqlSession();
+			
+			UserVo user = sqlSession.selectOne("users.selectUser", userid);
+			sqlSession.close();
+			
+			return user;
+			
+			return 
+		}*/
 	@Override
-	public UserVo getUser(String userid) {
-		// ¿ø·¡´Â µ¥ÀÌÅÍº£ÀÌ½º¿¡¼­ Á¶È¸¸¦ ÇØ¾ßÇÏ³ª, °³¹ß ÃÊ±â´Ü°è¶ó
-		// ¼³Á¤ÀÌ ¿Ï·áµÇÁö ¾ÊÀº, ÇöÀç È®ÀÎÇÏ·Á°í ÇÏ´Â ±â´ÉÀº ½ºÇÁ¸µ ÄÁÅ×ÀÌ³Ê¿¡ ÃÊÁ¡À» ¸ÂÃß±â À§ÇØ
-		// new ¿¬»êÀÚ¸¦ ÅëÇØ »ı¼ºÇÑ vo°´Ã¼¸¦ ¹İÈ¯ 
+	public UserVo selectUser(String userid) {
 		
-		return new UserVo("brown","ºê¶ó¿î");
+		// ì›ë˜ëŠ” ë°ì´í„° ë² ì´ìŠ¤ì—ì„œ ì¡°íšŒë¥¼ í•´ì•¼í•˜ë‚˜, ê°œë°œ ì´ˆê¸°ë‹¨ê³„ë¼
+		// ì„¤ì •ì´ ì™„ë£Œë˜ì§€ ì•Šì€, í˜„ì¬ í™•ì¸í•˜ë ¤ê³  í•˜ëŠ” ê¸°ëŠ¥ì€ ìŠ¤í”„ë§ ì»¨í…Œì´ë„ˆì— ì´ˆì ì„ ë§ì¶”ê¸° ìœ„í•´
+		// new ì—°ì‚°ìë¥¼ í†µí•´ ìƒì„±í•œ VOê°ì²´ë¥¼ ë³€í™˜ 
+		
+		return template.selectOne("users.selectUser", userid);
+	}
+	/*
+	@Override
+	public List<UserVo> selectAllUser() {
+		SqlSession sqlSession = MybatisUtil.getSqlSession();
+		// Session : ì›¹ ì‚¬ì´íŠ¸ì˜ ì—¬ëŸ¬ í˜ì´ì§€ì— ê±¸ì³ ì‚¬ìš©ë˜ëŠ” ì‚¬ìš©ì ì •ë³´ë¥¼ ì €ì¥í•˜ëŠ” ë°©ë²•
+		// select : ë¦¬í„´ë˜ëŠ” ê°’ì˜ ë³µìˆ˜ ìœ ë¬´ë¥¼ íŒë‹¨
+		//			1. ë‹¨ê±´ : ì¼ë°˜ê°ì²´ë¥¼ ë°˜í™˜(UserVo)selectOne()
+		//			2. ì—¬ëŸ¬ê±´ : List<UserVO> selectList()
+		//	insert,update, delete : insert,update, delete 
+		
+		// ë©”ì†Œë“œ ì´ë¦„ê³¼ ì‹¤í–‰í•  sql idë¥¼ ë™ì¼í•˜ê²Œ ë§ì¶”ì(ìœ ì§€ë³´ìˆ˜ - ë‹¤ë¥¸ ê°œë°œìì˜ ê°€ë…ì„±)
+		
+		List<UserVo> userList = sqlSession.selectList("users.selectAllUser");
+		
+		//  ì‚¬ìš©í•œ ìì› ë°˜í™˜
+		sqlSession.close();
+		
+		return userList;
+	
+	}*/
+	@Override
+	public List<UserVo> selectAllUser() {
+		
+		return template.selectList("users.selectAllUser");
+	}
+	@Override
+	public List<UserVo> selectPagingUser(PageVo vo) {
+		
+		return template.selectList("users.selectPagingUser", vo);
+	}
+	@Override
+	public int selectAllUserCnt() {
+		
+		return template.selectOne("users.selectAllUserCnt");
+	}
+	@Override
+	public int modifyUser(UserVo userVo) {
+		
+		return template.update("users.modifyUser", userVo);
+	}
+	@Override
+	public int registUser(UserVo userVo) {
+		
+		return template.insert("users.registUser", userVo);
+	}
+	@Override 
+	public int deleteUser(String userid) {
+		
+		return template.delete("users.deleteUser",userid);
 	}
 
 }
