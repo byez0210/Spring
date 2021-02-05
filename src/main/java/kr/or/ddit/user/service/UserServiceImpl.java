@@ -26,10 +26,6 @@ public class UserServiceImpl implements UserService{
 	public UserServiceImpl(UserDao userDao) {
 		this.userDao = userDao;
 	}
-	@Override
-	public UserVo selectUser(String userid) {
-		return userDao.selectUser(userid);
-	}
 
 	public UserDao getUserDao() {
 		return userDao;
@@ -37,6 +33,10 @@ public class UserServiceImpl implements UserService{
 
 	public void setUserDao(UserDao userDao) {
 		this.userDao = userDao;
+	}
+	@Override
+	public UserVo selectUser(String userid) {
+		return userDao.selectUser(userid);
 	}
 
 	@Override

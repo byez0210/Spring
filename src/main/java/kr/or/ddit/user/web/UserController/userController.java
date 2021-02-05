@@ -67,8 +67,8 @@ public class userController {
 	}
 	@RequestMapping("pagingUserTiles")
 	public String pagingUserTiles(@RequestParam(defaultValue = "1") int page,
-			@RequestParam(defaultValue = "5") int pageSize,
-			Model model) {
+									@RequestParam(defaultValue = "5") int pageSize,
+									Model model) {
 		
 		PageVo pageVo = new PageVo(page, pageSize);
 		
@@ -77,9 +77,41 @@ public class userController {
 		//tile-definition에 설정
 		return "tiles.user.pagingUser";
 	}
+	//사용자 리스트가 없는 상태의 화면만 응답으로 생성
+	@RequestMapping("pagingUserAjaxView")
+	public String pagingUserAjaxView() {
+		
+		return "tiles.user.pagingUserAjax";
+	}
+	@RequestMapping("pagingUserAjax")
+	public String pagingUserAjax(@RequestParam(defaultValue = "1") int page,
+								@RequestParam(defaultValue = "5") int pageSize,
+								Model model) {
+		
+		PageVo pageVo = new PageVo(page, pageSize);
+		
+		model.addAllAttributes( userService.selectPagingUser(pageVo));
+		
+		return "jsonView";
+	}
+	@RequestMapping("pagingUserAjaxHtml")
+	public String pagingUserAjaxHtml(@RequestParam(defaultValue = "1") int page,
+									@RequestParam(defaultValue = "5") int pageSize,
+									Model model) {
+		
+		PageVo pageVo = new PageVo(page, pageSize);
+		
+		model.addAllAttributes( userService.selectPagingUser(pageVo));
+		
+		return "user/pagingUserAjaxHtml";
+		
+		/*
+		 * pagingUserAjaxHtml ==>  /WEB-INF/views/user/pagingUserAjaxHtml.jsp
+		 */
+	}
 	
 	@RequestMapping("user")
-	public String userController(String userid, Model model) {
+	public String user(String userid, Model model) {
 		
 		model.addAttribute( "user",userService.selectUser(userid));
 		
@@ -119,7 +151,7 @@ public class userController {
 	@RequestMapping(path ="registUser" ,method=RequestMethod.GET)
 	public String  registUser() {
 	
-		return "/user/registUser";
+		return "tiles.user.userRegist";
 	}
 	//등록완료
 	//BindingResult 객체는 command 객체 바로 뒤에 인자로 기술해야 한다

@@ -12,6 +12,6 @@
 				@Resource, @Autowired, @Injection등 주입과 관련된 어노테이션에 대해서도 처리
 		annotation == 주석 					
 	-->
-	<context:component-scan base-package="kr.or.ddit"></context:component-scan>
-	
+<!-- 	<context:component-scan base-package="kr.or.ddit"></context:component-scan>
+	 -->
 </beans>
