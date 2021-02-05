@@ -1,12 +1,12 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
   <groupId>kr.or.ddit</groupId>
-  <artifactId>spring</artifactId>
-  <version>0.1</version>
+  <artifactId>SpringLearningMarket</artifactId>
+  <version>0.0.1-SNAPSHOT</version>
   <packaging>war</packaging>
-  
-  
-  <properties>
+
+
+ <properties>
   	<java.version>1.8</java.version>
   	<spring.version>4.3.30.RELEASE</spring.version>
   </properties>
@@ -74,6 +74,11 @@
 		<dependency>
 		    <groupId>org.springframework</groupId>
 		    <artifactId>spring-webmvc</artifactId>
+		   <version>${spring.version}</version>
+		</dependency>
+		<dependency>
+		    <groupId>org.springframework</groupId>
+		    <artifactId>spring-aop</artifactId>
 		   <version>${spring.version}</version>
 		</dependency>
 		
@@ -180,10 +185,16 @@
 		<!-- https://mvnrepository.com/artifact/org.apache.tiles/tiles-extras -->
 		<dependency>
 		    <groupId>org.apache.tiles</groupId>
-		    <artifactId>tiles-extras</artifactId>
+		    <artifactId>tiles-extras</artifactId> 
 		    <version>3.0.8</version>
 		</dependency>
-		
+			<!-- https://mvnrepository.com/artifact/org.aspectj/aspectjweaver -->
+			<dependency>
+			    <groupId>org.aspectj</groupId>
+			    <artifactId>aspectjweaver</artifactId>
+			    <version>1.9.6</version>
+			</dependency>
+			
 	</dependencies>  
 </project>
 
