@@ -2,8 +2,12 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:tx="http://www.springframework.org/schema/tx"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
-		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.3.xsd">
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.3.xsd
+		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-4.3.xsd
+		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.3.xsd">
 
 <!-- 1. Datasource
 	 2. SqlSessionFactoryBean (SqlSessionFactory)
@@ -35,4 +39,29 @@
 	 <bean id="sqlSessionTemplate" class="org.mybatis.spring.SqlSessionTemplate">
 	 	<constructor-arg ref="sqlSessionFactory"/>
 	 </bean>
+	 
+	 <bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+	 	<property name="dataSource" ref="dataSource"/>
+	 </bean>
+	 
+	 <!-- 1.빈 선언 순서 중요하지 않음 
+		  2.다른 설정파일에 선언한 스프링빈도 참조하는게 가능 -->
+		  
+	 <!-- advice : 공통의 관심사  -->
+	 <!--  선언적 츠랜젝션 : 개발자가 별도로 commit, rollback을 호ㅜㄹ하지 않음 
+	 					상황에 따라서 자동을 commit, rollback이 됨
+	 					commit : pointcut으로 설정된 메소드가 실핼될 때 해당 메ㅗ소드에서 
+	 		  					 RuntimeException이 발샐 하지 않고 정삭적으로 실행될 경우
+	 					rollback : RuntimeException이 발생할 때
+	 -->
+	 <tx:advice id="txAdvice" transaction-manager="transactionManager">
+	 	<tx:attributes>
+	 		<tx:method name="*"/>
+	 	</tx:attributes>
+	 </tx:advice>
+	 
+	 <!-- advisor : advice + pointcut -->
+	 <aop:config>
+	 	<aop:advisor advice-ref="txAdvice" pointcut="execution(* kr.or.ddit..service.*.*(..))"/>
+	 </aop:config>
 </beans>
