@@ -1,0 +1,26 @@
+Spring batch
+
+POM (dependency)
+reader, processor, writer 
+
+reader => ItemReader 구현 
+processor => ItemProcessor 구현 
+writer => ItemWriter 구현 
+
+K ==> key
+V ==> value
+
+T ==> Type
+
+I ==> IN
+O ==> OUT
+
+
+schrduler 
+특정 메소드를 주기적으로 실행
+
+설정 
+반복 실행할 클래스 메소드구현 
+scheduler 등록
+scheduler -tasks를 통해 스케줄 등록
+스케줄러를 통해 실행할 항목, 실행주기 설정 

@@ -19,7 +19,7 @@
 
 <%@ include file="/WEB-INF/views/common/common_lib.jsp"%>
 
-<link href="${cp} /css/dashboard.css"
+<link href="${cp}/css/dashboard.css"
 	rel="stylesheet">
 <link href="${cp}/css/blog.css" rel="stylesheet">
 <script src="https://t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>

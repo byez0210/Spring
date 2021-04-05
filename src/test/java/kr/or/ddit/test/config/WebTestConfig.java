@@ -15,7 +15,7 @@ import org.springframework.web.context.WebApplicationContext;
 /*
  	java - gui swing, awt, java fx, swt
  */
-@ContextConfiguration(locations = {	"classpath:/kr/or/ddit/config/spring/datasource-context.xml",
+@ContextConfiguration(locations = {	"classpath:/kr/or/ddit/config/spring/datasource-context_dev.xml",
 									"classpath:/kr/or/ddit/config/spring/application-context.xml",
 									"classpath:/kr/or/ddit/config/spring/root-context.xml"})
 @WebAppConfiguration		//스프링 환경을 Web기반의 application Context로 생성

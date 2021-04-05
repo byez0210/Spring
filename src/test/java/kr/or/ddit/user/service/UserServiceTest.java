@@ -22,15 +22,15 @@ public class UserServiceTest extends ModelTestConfig {
 	private UserService userService;
 	// 전체 사용자 조회 테스트
 
-		@Test
-		public void selectAllUsertest() {
-			/***Given***/
+	@Test
+	public void selectAllUsertest() {
+		/***Given***/
 
-			/***When***/
-			List<UserVo> userList = userService.selectAllUser();
-			
-			/***Then***/
-			assertEquals(21, userList.size());
+		/***When***/
+		List<UserVo> userList = userService.selectAllUser();
+		
+		/***Then***/
+		assertEquals(19, userList.size());
 		}
 	@Test
 	public void selectTest() {
@@ -47,18 +47,17 @@ public class UserServiceTest extends ModelTestConfig {
 		@Test
 		public void selectPagingUser() {
 			/***Given***/
-			PageVo  vo = new PageVo(2,5);
+			PageVo  vo = new PageVo(1,5);
 			
 			/***When***/
 			Map<String, Object>  map = userService.selectPagingUser(vo);
 			List<UserVo> userList = (List<UserVo>)map.get("userList");
 			int userCnt = (int)map.get("userCnt");
-			int pagination = (int) Math.ceil((double)userCnt/vo.getPageSize());
 //			System.out.println(pagination);
 			
 			/***Then***/
-			assertEquals(5, pagination);
-			assertEquals(77, userCnt);
+			assertEquals(4, userList.size());
+			assertEquals(19, userCnt);
 		}
 		
 		@Test
@@ -82,7 +81,7 @@ public class UserServiceTest extends ModelTestConfig {
 			/***Given***/
 			
 			// userid, usernm, pass, reg_dt, alias , addr1, addr2 , zipcode
-			UserVo userVo = new UserVo("testUser","대덕인재","dditpass", new Date(), "개발원_m","대전시 중구 중앙로 76", "4층 대덕인재개발원","34940" ,"brown.png","uuid=generated-filename.png");
+			UserVo userVo = new UserVo("testUser2","대덕인재","dditpass", new Date(), "개발원_m","대전시 중구 중앙로 76", "4층 대덕인재개발원","34940" ,"brown.png","uuid=generated-filename.png");
 			
 			/***When***/
 			int insertCnt = userService.registUser(userVo);

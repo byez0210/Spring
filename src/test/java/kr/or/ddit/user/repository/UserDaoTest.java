@@ -6,10 +6,14 @@ import java.util.Date;
 import java.util.List;
 
 import javax.annotation.Resource;
+import javax.sql.DataSource;
 
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import org.springframework.core.io.ClassPathResource;
+import org.springframework.jdbc.datasource.init.DatabasePopulatorUtils;
+import org.springframework.jdbc.datasource.init.ResourceDatabasePopulator;
 
 import kr.or.ddit.common.model.PageVo;
 import kr.or.ddit.test.config.ModelTestConfig;
@@ -24,17 +28,36 @@ public class UserDaoTest extends ModelTestConfig{
 	@Resource(name="userDao")
 	private UserDao userDao;
 	
-	/*
-	 * @Before public void setup() {
-	 * 
-	 * //테스트에서 사용할 신규 사용자 추가 UserVo userVo = new UserVo("testUser","테스트사용자",
-	 * "testUserPass", new Date(), "대덕","대전 중구 중앙로 76","4층","34940"
-	 * ,"brown.png","uuid=generated-filename.png"); userDao.registUser(userVo);
-	 * 
-	 * //신규 입력 테스트를 위해 테스트 과정에서 입력된 테이터를 삭제 userDao.deleteUser("ddit2"); }
-	 * 
-	 * @After public void tearDown() { userDao.deleteUser("testUser"); }
-	 */
+	@Resource(name="dataSource")
+	private DataSource dataSource;
+	
+	
+	 @Before public void setup() {
+	 //initData.sql을 실행 : 스프링에서 제동하는 
+		ResourceDatabasePopulator populator = new ResourceDatabasePopulator();
+		//populator를 통해 실행시킬 sql 파일을 지정
+		populator.addScript(new ClassPathResource("/kr/or/ddit/config/db/initData.sql"));
+		
+		//script 파일을 실행하다 에러가발생할 경우 더이상 진행하지 않게 
+		populator.setContinueOnError(false);
+		
+		//populator 를 실행
+		DatabasePopulatorUtils.execute(populator, dataSource);
+		
+		
+	
+	 //테스트에서 사용할 신규 사용자 추가 
+		 UserVo userVo = new UserVo("testUser","테스트사용자",
+	 "testUserPass", new Date(), "대덕","대전 중구 중앙로 76","4층","34940"
+	,"brown.png","uuid=generated-filename.png"); 
+		
+	 userDao.registUser(userVo);
+	 };
+	  
+	 //신규 입력 테스트를 위해 테스트 과정에서 입력된 테이터를 삭제 userDao.deleteUser("ddit2"); }
+	 
+	 @After public void tearDown() { userDao.deleteUser("testUser"); }
+	
 	//사용자 아이디를 이용하여 특정 사용자 조회
 	@Test
 	public void getUserTest() {
@@ -56,7 +79,7 @@ public class UserDaoTest extends ModelTestConfig{
 		List<UserVo> userList = userDao.selectAllUser();
 		
 		/***Then***/
-		assertEquals(76, userList.size());
+		assertEquals(18, userList.size());
 	}
 	// 사용자 페이징 조회 테스트
 		@Test
@@ -80,7 +103,7 @@ public class UserDaoTest extends ModelTestConfig{
 			int userCnt = userDao.selectAllUserCnt();
 			
 			/***Then***/
-			assertEquals(76, userCnt);
+			assertEquals(18, userCnt);
 		}
 		@Test
 		public void modifyUserTest() {

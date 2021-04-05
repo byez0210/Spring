@@ -17,7 +17,7 @@
   	WHERE userid = #{value}
   </select>
   
-  <select id="selectPagingUser" resultType="userVo"  parameterType="pageVo">
+  <select id="selectPagingUser" resultType="userVo"  parameterType="pageVo">users.xml
   	SELECT * 
 	FROM 
 	    (SELECT ROWNUM rn,a.* 
